@@ -6,6 +6,7 @@
 uint8_t unidad = 0;
 uint8_t decena = 0;
 uint8_t centena = 0;
+uint8_t contador = 0;
 
 void config_USART(void) {
     UCSR0B = (1 << RXEN0) | (1 << TXEN0) | (1 << RXCIE0);
@@ -13,8 +14,23 @@ void config_USART(void) {
     UBRR0 = 103; 
 }
 ISR(USART_RX_vect) {
-}  
 
+    char dato = UDR0;
+    if (dato >= '0' && dato <= '9') {
+        if (contador == 0) {
+            centena =dato+'0';
+            contador++;
+        } else if (contador == 1) {
+            decena =dato+'0';
+            contador++;
+        } else if (contador == 2) {
+            unidad =dato+'0';
+            contador =0;
+        }
+    } else {
+        contador = 0;
+    }
+}
 int main (void){
 
     DDRD |=0xF0; //display
