@@ -18,13 +18,13 @@ ISR(USART_RX_vect) {
     char dato = UDR0;
     if (dato >= '0' && dato <= '9') {
         if (contador == 0) {
-            centena =dato+'0';
+            centena =dato-'0';
             contador++;
         } else if (contador == 1) {
-            decena =dato+'0';
+            decena =dato-'0';
             contador++;
         } else if (contador == 2) {
-            unidad =dato+'0';
+            unidad =dato-'0';
             contador =0;
         }
     } else {
